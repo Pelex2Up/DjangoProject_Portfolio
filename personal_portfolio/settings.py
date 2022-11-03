@@ -30,9 +30,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "social_core.backends.google.GoogleOAuth2",
     "social_core.backends.github.GithubOAuth2",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 INSTALLED_APPS = [
@@ -150,3 +149,12 @@ SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("SOCIAL_AUTH_GITHUB_SECRET")
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+import random
+
+# Если имя не удалось получить, то можно его сгенерировать
+SOCIAL_AUTH_DEFAULT_USERNAME = lambda: random.choice(['Darth_Vader', 'Obi-Wan_Kenobi', 'R2-D2', 'C-3PO', 'Yoda'])
+# Разрешаем создавать пользователей через social_auth
+SOCIAL_AUTH_CREATE_USERS = True
