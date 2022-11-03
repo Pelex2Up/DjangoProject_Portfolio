@@ -1,0 +1,123 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'dashboard' %}">
+            <img style="height: 3em; width: 10em;" src="https://palazzo.by/storage/shops/March2022/aqHoZSrfdW0BURArz9Qy.png">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'project_index' %}">Портфолио</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'blog_index' %}">Блог</a>
+            </li>
+          </ul>
+        </div>
+
+        {% if user.is_authenticated %}
+        <div class="dropdown">
+             <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Привет, {{ user.username|default:'Гость' }}!
+             </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
+                        <li><a class="dropdown-item" href="{% url 'password_change' %}">Изменить пароль</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти</a></li>
+                    </ul>
+            </div>
+        {% else %}
+<!--             <a class="btn btn-primary" href="{% url 'login' %}" role="button">-->
+<!--                 Войти или зарегистрироваться-->
+<!--             </a>-->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal"
+                data-url="{% url 'modal-login' %}">
+            Войти или зарегистрироваться
+        </button>
+        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Вход в аккаунт пользователя</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+          <div class="modal-login">
+              <script>
+                        $('#loginModal').on('show.bs.modal', function (event) {
+                      let button = $(event.relatedTarget);
+                      let url = button.data('url');
+                      let container = $(this).find('.modal-login');
+                      container.html('');
+                      $.ajax({
+                        url: url,
+                      }).done(function(data){
+                        container.html(data);
+                      });
+                    });
+                    </script>
+          </div>
+            {% comment %}
+<!--                <div class="">-->
+<!--          <form class="px-4 py-3" method="POST" action="{% url 'login' %}?next={{ request.path|urlencode }}">-->
+<!--              {% csrf_token %}-->
+<!--                <div class="mb-3">-->
+<!--                  <label for="inputLogin" class="form-label">Введите логин</label>-->
+<!--                  <input type="text" class="form-control" id="inputLogin" placeholder="Введите логин">-->
+
+<!--                </div>-->
+<!--                <div class="mb-3">-->
+<!--                  <label for="exampleDropdownFormPassword1" class="form-label">Пароль</label>-->
+<!--                  <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Пароль">-->
+<!--                </div>-->
+<!--                <div class="mb-3">-->
+<!--                  <div class="form-check">-->
+<!--                    <input type="checkbox" class="form-check-input" id="dropdownCheck">-->
+<!--                    <label class="form-check-label" for="dropdownCheck">-->
+<!--                      Запомнить меня-->
+<!--                    </label>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <input type="submit" class="btn btn-primary" value="Войти">-->
+<!--            </form>    -->
+
+
+
+<!--              <div class="dropdown-divider"></div>-->
+
+<!--              <a class="dropdown-item" href="{% url 'login' %}">Старый вход</a>-->
+<!--              <a class="dropdown-item" href="{% url 'social:begin' 'github' %}">Войти с помощью GitHub</a>-->
+<!--              <a class="dropdown-item" href="{% url 'register' %}">Впервые здесь? Зарегистрироваться</a>-->
+<!--              <a class="dropdown-item" href="{% url 'password_reset' %}">Забыли пароль?</a>-->
+          {% endcomment %}
+                </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="container">
+    {% block page_content %}
+
+    {% endblock %}
+</div>
+<div class="container" style="margin: 0 auto -20px; position: absolute; overflow: hidden; bottom: 0; left: 40%;">
+    <div>
+        <a>Developed by Alexey Petrovets</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>

@@ -1,0 +1,18 @@
+{% load crispy_forms_tags %}
+
+{% block page_content %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <br>
+
+    <pre><input class="btn btn-primary" type="submit" value="Войти">  или  <a class="btn btn-success" href="{% url 'social:begin' 'github' %}">Войти с помощью GitHub</a></pre>
+
+</form>
+<hr>
+<a class="btn btn-success" href="{% url 'register' %}">Впервые здесь? Зарегистрируйтесь!</a>
+<h1></h1>
+<a class="btn btn-secondary" href="{% url 'password_reset' %}">Я не помню свой пароль</a>
+
+{% endblock %}
