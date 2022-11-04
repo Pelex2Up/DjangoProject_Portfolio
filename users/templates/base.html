@@ -27,14 +27,14 @@
 
         {% if user.is_authenticated %}
         <div class="dropdown">
-             <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <button class="btn btn-success dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Привет, {{ user.username|default:'Гость' }}!
              </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
-                        <li><a class="dropdown-item" href="{% url 'password_change' %}">Изменить пароль</a></li>
-                        <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти</a></li>
-                    </ul>
-            </div>
+                    <li><a class="dropdown-item" href="{% url 'password_change' %}">Изменить пароль</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти</a></li>
+                </ul>
+        </div>
         {% else %}
 <!--             <a class="btn btn-primary" href="{% url 'login' %}" role="button">-->
 <!--                 Войти или зарегистрироваться-->
@@ -44,66 +44,32 @@
             Войти или зарегистрироваться
         </button>
         <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Вход в аккаунт пользователя</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-      </div>
-      <div class="modal-body">
-          <div class="modal-login">
-              <script>
-                        $('#loginModal').on('show.bs.modal', function (event) {
-                      let button = $(event.relatedTarget);
-                      let url = button.data('url');
-                      let container = $(this).find('.modal-login');
-                      container.html('');
-                      $.ajax({
-                        url: url,
-                      }).done(function(data){
-                        container.html(data);
-                      });
-                    });
-                    </script>
-          </div>
-            {% comment %}
-<!--                <div class="">-->
-<!--          <form class="px-4 py-3" method="POST" action="{% url 'login' %}?next={{ request.path|urlencode }}">-->
-<!--              {% csrf_token %}-->
-<!--                <div class="mb-3">-->
-<!--                  <label for="inputLogin" class="form-label">Введите логин</label>-->
-<!--                  <input type="text" class="form-control" id="inputLogin" placeholder="Введите логин">-->
-
-<!--                </div>-->
-<!--                <div class="mb-3">-->
-<!--                  <label for="exampleDropdownFormPassword1" class="form-label">Пароль</label>-->
-<!--                  <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Пароль">-->
-<!--                </div>-->
-<!--                <div class="mb-3">-->
-<!--                  <div class="form-check">-->
-<!--                    <input type="checkbox" class="form-check-input" id="dropdownCheck">-->
-<!--                    <label class="form-check-label" for="dropdownCheck">-->
-<!--                      Запомнить меня-->
-<!--                    </label>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--                <input type="submit" class="btn btn-primary" value="Войти">-->
-<!--            </form>    -->
-
-
-
-<!--              <div class="dropdown-divider"></div>-->
-
-<!--              <a class="dropdown-item" href="{% url 'login' %}">Старый вход</a>-->
-<!--              <a class="dropdown-item" href="{% url 'social:begin' 'github' %}">Войти с помощью GitHub</a>-->
-<!--              <a class="dropdown-item" href="{% url 'register' %}">Впервые здесь? Зарегистрироваться</a>-->
-<!--              <a class="dropdown-item" href="{% url 'password_reset' %}">Забыли пароль?</a>-->
-          {% endcomment %}
-                </div>
-                      </div>
-                </div>
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Вход в аккаунт пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
               </div>
+              <div class="modal-body">
+                  <div class="modal-login">
+                      <script>
+                                $('#loginModal').on('show.bs.modal', function (event) {
+                              let button = $(event.relatedTarget);
+                              let url = button.data('url');
+                              let container = $(this).find('.modal-login');
+                              container.html('');
+                              $.ajax({
+                                url: url,
+                              }).done(function(data){
+                                container.html(data);
+                              });
+                            });
+                            </script>
+                  </div>
             </div>
+          </div>
+    </div>
+</div>
         {% endif %}
     </div>
 </nav>
