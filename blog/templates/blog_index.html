@@ -2,24 +2,26 @@
 
 {% block page_content %}
 <div class="col-md-8 offset-md-2">
-  <h1>Блог</h1>
-  <hr>
+  <h1>Блог<hr></h1>
+
   {% for post in posts %}
-    <div class="row">
-        <div class="col-md-2">
-            <img class="card-img" src="https://assets.turbologo.ru/blog/ru/2021/06/03082655/logo-apple-1998.png">
+    <div class="row g-0">
+        <div class="col-sm-5 position-relative bg-position-center bg-repeat-0 bg-size-cover rounded-3"
+             style="position: relative; background: url('https://assets.turbologo.ru/blog/ru/2021/06/03082655/logo-apple-1998.png'); min-height: 15rem; max-height: 15rem;">
         </div>
-        <div class="col-md-9">
-    <h2><a href="{% url 'blog_detail' post.pk%}">{{ post.title }}</a></h2>
-     <small>
-        {{ post.created_on.date }} |&nbsp;
-          Категория:&nbsp;
-        {% for category in post.categories.all %}
-            <a href="{% url 'blog_category' category.name %}">{{ category.name }}&nbsp;</a>
-        {% endfor %}
-    </small>
-    <p>{{ post.body | slice:":300" }}...</p>
-    <hr>
+        <div class="col-sm-7">
+            <div class="card-body px-0 pt-sm-0 ps-sm-4 pb-0 pb-sm-4">
+                <h2><a href="{% url 'blog_detail' post.pk%}">{{ post.title }}</a></h2>
+                    <small>
+                        {{ post.created_on.date }} |&nbsp;
+                            Категория:&nbsp;
+                        {% for category in post.categories.all %}
+                            <a href="{% url 'blog_category' category.name %}">{{ category.name }}&nbsp;</a>
+                        {% endfor %}
+                    </small>
+                <p>{{ post.body | slice:":300" }}...</p>
+                <hr>
+            </div>
         </div>
     {% endfor %}
 </div>

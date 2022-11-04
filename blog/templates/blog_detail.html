@@ -1,36 +1,101 @@
 {% extends "base.html" %}
+{% load static %}
+
+<link href="https://silicon.createx.studio/assets/css/components/_parallax.scss" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jarallax@2/dist/jarallax.min.js"></script>
+<script type="text/javascript" async src="https://www.googletagmanager.com/gtag/js?id=G-TXTBFKF5EW&l=dataLayer&cx=c"></script>
+<script type="text/javascript" async src="https://www.google-analytics.com/analytics.js"></script>
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-WKV3GT5"></script>
+<script>
+      (function () {
+        window.onload = function () {
+          const preloader = document.querySelector('.page-loading');
+          preloader.classList.remove('active');
+          setTimeout(function () {
+            preloader.remove();
+          }, 1000);
+        };
+      })();
+</script>
+<script>
+
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-WKV3GT5');
+
+</script>
+
 {% block page_content %}
- <div class="col-md-8 offset-md-2">
-     <h1>{{ post.title }}</h1>
-     <small>
-         {{ post.created_on.date }} |&nbsp;
-         Категория:&nbsp;
-         {% for category in post.categories.all %}
-         <a href="{% url 'blog_category' category.name %}">
-            {{ category.name }}
-        </a>&nbsp;
+<main class="page-wrapper">
+    <section class="container mt-4 pt-lg-2 pb-3">
+        <h1 class="pb-3" style="max-width: 970px;">
+            {{ post.title }}
+        </h1>
+        <div class="d-flex flex-md-row flex-column align-items-md-center justify-content-md-between mb-3">
+            <div class="d-flex align-items-center flex-wrap text-muted mb-md-0 mb-4">
+                <div class="fs-xs border-end pe-3 me-3 mb-2">
+                    <span class="badge bg-faded-primary text-primary fs-base">
+                        {% for category in post.categories.all %}
+                            {{ category.name }}
+                        {% endfor %}
+                    </span>
+                </div>
+                <div class="fs-sm border-end pe-3 me-3 mb-2">
+                    {{ post.created_on.date }}
+                </div>
+                <div class="fs-xs pe-3 me-3 mb-2">
+                    <i class="bx bx-comment fs-base me-1">
+                        Комментариев:
+                    </i>
+                    {{ comments.count }}
+                </div>
+            </div>
+            <div class="d-flex align-items-center position-relative ps-md-3 pe-lg-5 mb-2">
+                <img src="{% static 'img/1551512888_2-730x617.jpg' %}" class="rounded-circle" width="60" alt="Avatar">
+                <div class="ps-3">
+                    <h6 class="mb-1">Автор</h6>
+                    <a href="#" class="fw-semibold stretched-link">
+                        Alexey Petrovets
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="jarallax mb-lg-5 mb-4" data-jarallax data-speed="-0.35" style="height: 36.45vw; min-height: 300px;" data-jarallax-original-styles="height: 36.45vw; min-height: 300px;">
+        <div style="position: relative; top: 0px; left: 0px; width: 100%; height: 100%; overflow: hidden; z-index: -100; clip-path: polygon(0px 0px, 100% 0px, 100% 100%, 0px 100%);" id="jarallax-container-0">
+            <div class="jarallax-img" style="background-image: url('{% static 'img/cover-image.jpg' %}'); object-fit: cover; object-position: 50% 50%; max-width: none; position: fixed; top: 0px; left: 0px; width: 100%; height: 120%; overflow: hidden; pointer-events: none; transform-style: preserve-3d; backface-visibility: hidden; margin-top: 0px; transform: translateZ(0px) scale(0.875);"
+                 data-jarallax-original-styles="background-image: url('{% static 'img/cover-image.jpg' %}');">
+            </div>
+        </div>
+    </div>
+    <section class="container mb-5 pt-4 pb-2 py-mg-4">
+        <p>{{ post.body | linebreaks }}</p>
+    </section>
+    <section class="container mb-4 pb-2 mb-md-5 pb-lg-5">
+        <h3>Оставьте комментарий:</h3>
+        <form action="/blog/{{ post.pk }}/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.author }}
+            </div>
+            <br>
+            <div class="form-group">
+                {{ form.body }}
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+        <h3>Комментарии: <span>{{ comments.count }}</span></h3>
+        {% for comment in comments %}
+        <p>
+            Дата публикации: {{comment.created_on.date}}.&nbsp;
+            <b>{{ comment.author }}</b> написал:
+        </p>
+        <p>{{ comment.body }}</p>
+        <hr>
         {% endfor %}
-    </small>
-    <p>{{ post.body | linebreaks }}</p>
-    <h3>Оставьте комментарий:</h3>
-    <form action="/blog/{{ post.pk }}/" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            {{ form.author }}
-        </div>
-        <div class="form-group">
-            {{ form.body }}
-        </div>
-        <button type="submit" class="btn btn-primary">Отправить</button>
-    </form>
-    <h3>Комментарии:</h3>
-    {% for comment in comments %}
-    <p>
-        Дата публикации: {{comment.created_on.date}}.&nbsp;
-        <b>{{ comment.author }}</b> написал:
-    </p>
-    <p>{{ comment.body }}</p>
-    <hr>
-    {% endfor %}
-</div>
+    </section>
+</main>
 {% endblock %}
